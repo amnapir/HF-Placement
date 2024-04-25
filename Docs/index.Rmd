@@ -1,19 +1,26 @@
 ---
 title: "Integrating Human Factors Expertise into Development of Automated Vehicles"
 subtitle: "Replication package"
-author: "Amna Pir Muhammad, Alessia Knauss, Eric Knuass, Jonas Bärgman "
+author: "Amna Pir Muhammad, Alessia Knauss, Eric Knauss, Jonas Bärgman"
 date: "First revision 2024-04-25. This revision `r Sys.Date()`."
 output:
   bookdown::html_document2:
     toc: true
     toc_float: true
     toc_depth: 1
-    includes:
-      before_body: footer.html
 bibliography: refs.bib
 link-citations: true
+csl: elsevier-harvard.csl
 linkcolor: blue
+header-includes:
+  - \usepackage{amsmath}
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = TRUE)
+options(htmltools.dir.version = FALSE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+knitr::opts_chunk$set(cache=TRUE)
+
+# set this to num cores on your computer!
+CORES = 4 
 ```
+
