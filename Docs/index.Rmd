@@ -182,7 +182,7 @@ rstan::check_hmc_diagnostics(eval(fit)$fit)
 
 ## Posterior Predictive Checks
 We perform posterior predictive checks to assess how well the model fits the data.
-
+```
 pp_check(fit, type = "bars", nsamples = 250)
 
 ## Extract and Plot Posterior Distributions
