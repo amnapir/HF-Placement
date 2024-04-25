@@ -22,5 +22,23 @@ knitr::opts_chunk$set(cache=TRUE)
 
 # set this to num cores on your computer!
 CORES = 4 
-```
 
+library(bayesplot)
+library(haven)  
+library(bnlearn)  
+library(gRain) 
+library(ggplot2)  
+library(dplyr) 
+library(brms)
+library(tidyverse)
+library(mice) 
+library(mcmcplots)
+library(rethinking)
+library(patchwork)
+library(viridis)
+library(ggthemes)
+
+options(brms.backend="cmdstanr")
+options(mc.cores = CORES) # set num cores
+
+```
