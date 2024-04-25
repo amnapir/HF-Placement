@@ -37,7 +37,24 @@ library(rethinking)
 library(patchwork)
 library(viridis)
 library(ggthemes)
+theme_set(theme_tufte())
 
 options(brms.backend="cmdstanr")
 options(mc.cores = CORES) # set num cores
 ```
+
+# Introduction
+The purpose of this document is to show how the analysis of the experiments was done. With this replication package, anyone can download and rerun the analysis, and check our assumptions.
+
+
+## Load the data
+Here we show how to load the dataset (from the `Data/` directory in the GitHub [repository](https://github.com/amnapir/HF-Placement)), which can then be used in the analysis.
+
+```{r, eval=FALSE}
+data <- read_sav("Untitled26.sav")
+```
+# Recode missing values
+data <- data %>%
+  mutate(across(starts_with("M210_"), ~if_else(. == -9, NA_real_, .))) %>%
+  mutate(across(starts_with("M201_"), ~if_else(. == -9, NA_real_, .)))
+
