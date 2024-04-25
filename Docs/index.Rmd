@@ -238,6 +238,7 @@ print(p)
 ## Conditional effects
 Below we plot conditional effects for some of our estimates.
 
+```
 ce <- conditional_effects(fit, categorical = TRUE)
 p <- conditional_effects(fit, effects = "placementOption", categorical = TRUE)
 p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
@@ -265,4 +266,4 @@ p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
   xlab("Criticality") +
   ylab("") +
   scale_x_continuous(breaks=seq(0,1))
-
+```
