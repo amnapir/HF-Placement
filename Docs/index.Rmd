@@ -238,3 +238,35 @@ p <- p + scale_y_discrete(labels = y_labels)
 print(p)
 
 
+## Conditional effects
+Below we plot conditional effects for some of our estimates.
+
+
+ce <- conditional_effects(fit, categorical = TRUE)
+p <- conditional_effects(fit, effects = "placementOption", categorical = TRUE)
+p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  xlab("placementOption") +
+  ylab("") +
+  scale_x_continuous(breaks=seq(0,1))
+
+ce <- conditional_effects(fit, categorical = TRUE)
+p <- conditional_effects(fit, effects = "Experience", categorical = TRUE)
+p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  xlab("Experience") +
+  ylab("") +
+  scale_x_continuous(breaks=seq(0,1))
+
+
+ce <- conditional_effects(fit, categorical = TRUE)
+p <- conditional_effects(fit, effects = "Expertise", categorical = TRUE)
+p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  xlab("Criticality") +
+  ylab("") +
+  scale_x_continuous(breaks=seq(0,1))
+
