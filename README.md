@@ -2,7 +2,7 @@
 This repository houses scripts and data essential for replicating and evaluating the methodology presented in our manuscript. While we are unable to release the empirical data in its original form due to non-disclosure agreements, we have shared the primary data utilized for statistical analysis. The only exclusions are text fields, such as role descriptions and comments, where participant identities might be discernible.
 
 ### Data Sets
-Data for analysis is available in multiple formats within the [data/](https://github.com/amnapir/HF-Placement/tree/main/Data) directory, including CSV, R, and SPSS (.sav). For our replication, we utilized the SPSS file format.
+Data for analysis is available in multiple formats within the [Data/](https://github.com/amnapir/HF-Placement/tree/main/Data) directory, including CSV, R, and SPSS (.sav). For our replication, we utilized the SPSS file format.
 
 ### Documentation
 
