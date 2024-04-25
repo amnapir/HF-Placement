@@ -40,5 +40,4 @@ library(ggthemes)
 
 options(brms.backend="cmdstanr")
 options(mc.cores = CORES) # set num cores
-
 ```
