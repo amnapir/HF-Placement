@@ -53,22 +53,18 @@ To begin, load the dataset available in the Data/ directory of our GitHub [repos
 data <- read_sav("Untitled26.sav")
 
 In our dataset:
-
-\item Ranking Variable: Presented by the M201_ prefix, this variable assesses preferences across ten options.
-\item Effectiveness Variable: Presented by the M209_ prefix, this variable measures the effectiveness of different options.
-\item Easiness Variable: Presented by the M210_ prefix, this variable evaluates the perceived ease of each option.
+Ranking Variable: Presented by the M201_ prefix, this variable assesses preferences across ten options.
+Effectiveness Variable: Presented by the M209_ prefix, this variable measures the effectiveness of different options.
+Easiness Variable: Presented by the M210_ prefix, this variable evaluates the perceived ease of each option.
 
 For more detailed information on these variables and their corresponding options, please refer to our manuscript or questionnaire.
 
 
 ## Convert Categorical Variables to Factors
-
-
 We convert specific columns to ordered factors to ensure correct ordering in categorical analysis.
 
 data$D104 <- factor(data$D104, levels = c("1", "2", "3"), ordered = TRUE)
 data$D102 <- factor(data$D102, levels = c("1", "2", "3", "4"), ordered = TRUE)
-
 
 
 
@@ -79,9 +75,9 @@ modeldata <- data %>%
   mutate(across(starts_with("M201_"), ~if_else(. == -9, NA_real_, .))) %>%
   mutate(across(starts_with("M209_"), ~if_else(. == -9, NA_real_, .))) %>%
   mutate(across(starts_with("M210_"), ~if_else(. == -9, NA_real_, .))) %>%
-## Create New Variables Based on Existing Ones
 
-# Create New Variables Based on Existing Ones
+
+## Create New Variables Based on Existing Ones
 We create new variables based on existing ones to simplify and categorize the data for analysis.
 
 modeldata <- modeldata %>%
@@ -118,6 +114,7 @@ modeldata <- modeldata %>%
   ) %>%
   pivot_longer(cols = starts_with("M209_"), names_to = "placementOption", values_to = "effectivenessRating")
 
+
 ## Convert Effectiveness and Easiness varaibles to Factor
 We convert the "effectivenessRating" and "easinessRating" variables to an ordered factor for correct ordering in the Bayesian analysis.
 
@@ -142,7 +139,6 @@ prior_spec <- c(
 ## Prior Predictive Checks
 We check the and plot the priors from the sample only without empirical data. Sample only from the priors.
 Evidently the medians are quite evenly set along the $x$-axis, and the uncertainty is fairly uniformly distributed among the categories $1,\ldots,6$ (the bars).
-
 
 fit <- brm(
   formula = model_formula,
@@ -197,13 +193,12 @@ We perform posterior predictive checks to assess how well the model fits the dat
 
 pp_check(fit, type = "bars", nsamples = 250)
 
+
 ## Extract and Plot Posterior Distributions
 We extract posterior samples and plot the posterior distributions for the model coefficients.
 
-
 posterior_samples <- posterior_samples(fit)
 coefficients <- grep("b_", colnames(posterior_samples), value = TRUE)
-
 plots <- lapply(coefficients, function(coef_name) {
   ggplot(posterior_samples, aes_string(x = coef_name)) +
     geom_density(fill = "blue", alpha = 0.5) +
@@ -216,9 +211,6 @@ plots <- lapply(coefficients, function(coef_name) {
 ## Ploting the posterior probability
 Next, let's plot the posterior probability densities for our population-level estimates on the $\logit$ scale.
 
-
-
-# Extract parameter names from the fitted model
 parameter_names <- colnames(posterior_samples)
 parameters <- grep("^b_", parameter_names, value = TRUE)
 parameters <- parameters[!grepl("Intercept", parameters)]
@@ -236,6 +228,7 @@ y_labels <- c("Feature Definition", "Feature Realization", "System Design",
 y_labels <- rev(y_labels)
 p <- p + scale_y_discrete(labels = y_labels) 
 print(p)
+
 
 
 ## Conditional effects
