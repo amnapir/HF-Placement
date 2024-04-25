@@ -6,12 +6,12 @@ Data for analysis is available in multiple formats within the [data/] directory,
 
 ### Documentation
 
-The [docs/] directory contains the replication package.
+The [Docs/] directory contains the replication package.
 <!-- index.Rmd within this directory can be executed in RStudio to compile into index.html, which is viewable online. -->
 Note: Our analysis employs Stan, brms, etc, requiring installation and configuration. So there's a lot to install and configure so one can  use `Docker`.
 
 ### Plots
-[plots/] includes plots featured in the manuscript, along with additional ones that were omitted to conserve space.
+[Plots/] includes plots featured in the manuscript, along with additional ones that were omitted to conserve space.
 
 
 ### Access
