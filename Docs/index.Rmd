@@ -169,7 +169,7 @@ fit <- brm(
   cores = 4,
   seed = 12345
 )
-```
+
 ## Summary and Diagnostics
 We print the summary of the fitted model and perform diagnostic checks to ensure the model has converged and is reliable.
 Our caterpillar plots look good for all estimated parameters (i.e., they look like fat caterpillars when the chains have mixed well).
@@ -180,9 +180,21 @@ Diagnostics such as divergences, tree depth, energy, $\widehat{R}$, and $\mathrm
 
 rstan::check_hmc_diagnostics(eval(fit)$fit)
 
+if(max(rhat(eval(fit)), na.rm=T) >= 1.01) {
+  print("Warning: Rhat >=1.01")
+} else {
+  print("All Rhat <1.01")
+}
+
+if(min(neff_ratio(eval(fit)), na.rm=T) <= 0.2) {
+  print("Warning: ESS <=0.2")
+} else {
+  print("All ESS >0.2")
+}
+
 ## Posterior Predictive Checks
 We perform posterior predictive checks to assess how well the model fits the data.
-```
+
 pp_check(fit, type = "bars", nsamples = 250)
 
 ## Extract and Plot Posterior Distributions
@@ -198,4 +210,31 @@ plots <- lapply(coefficients, function(coef_name) {
     labs(title = paste("Posterior Distribution for", gsub("b_", "", coef_name)),
          x = "Effect Size", y = "Density")
 })
+
+
+
+## Ploting the posterior probability
+Next, let's plot the posterior probability densities for our population-level estimates on the $\logit$ scale.
+
+
+
+# Extract parameter names from the fitted model
+parameter_names <- colnames(posterior_samples)
+parameters <- grep("^b_", parameter_names, value = TRUE)
+parameters <- parameters[!grepl("Intercept", parameters)]
+print(parameters)
+parameters <- c(parameters)
+parameters <- rev(parameters)
+p <- mcmc_areas(fit, pars = parameters, prob_outer = 0.95, prob = 0.5) 
+#+  vline_0(size = 0.3)
+y_labels <- c("Feature Definition", "Feature Realization", "System Design",
+              "Dedicated human factors team", "User-oriented teams", "Non-functional requirements team",
+              "System/feature evaluation team", "Safety team", "Person/team responsible for the overall system",
+              "ExperienceLevelLow", "ExperienceLevelMedium", "ExpertiseEngineering",
+              "ExpertiseHumanFactors", "ExpertiseOther", "AreaOfWorkNonMAutomotive",
+              "AreaOfWorkOEM", "AreaOfWorkResearchInstitute", "AreaOfWorkSupplier")
+y_labels <- rev(y_labels)
+p <- p + scale_y_discrete(labels = y_labels) 
+print(p)
+
 
