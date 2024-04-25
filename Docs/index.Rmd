@@ -1,0 +1,16 @@
+---
+title: "Integrating Human Factors Expertise into Development of Automated Vehicles"
+subtitle: "Replication package"
+author: "Amna Pir Muhammad"
+date: "First revision 2024-04-25. This revision `r Sys.Date()`."
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_float: true
+    toc_depth: 1
+    includes:
+      before_body: footer.html
+bibliography: refs.bib
+link-citations: true
+linkcolor: blue
+---
