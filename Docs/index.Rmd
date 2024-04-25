@@ -135,7 +135,6 @@ prior_spec <- c(
   prior(cauchy(0, 2), "sd")
 )
 
-
 ## Prior Predictive Checks
 We check the and plot the priors from the sample only without empirical data. Sample only from the priors.
 Evidently the medians are quite evenly set along the $x$-axis, and the uncertainty is fairly uniformly distributed among the categories $1,\ldots,6$ (the bars).
@@ -165,6 +164,9 @@ fit <- brm(
   cores = 4,
   seed = 12345
 )
+
+
+
 
 ## Summary and Diagnostics
 We print the summary of the fitted model and perform diagnostic checks to ensure the model has converged and is reliable.
@@ -208,6 +210,7 @@ plots <- lapply(coefficients, function(coef_name) {
 
 
 
+
 ## Ploting the posterior probability
 Next, let's plot the posterior probability densities for our population-level estimates on the $\logit$ scale.
 
@@ -231,9 +234,9 @@ print(p)
 
 
 
+
 ## Conditional effects
 Below we plot conditional effects for some of our estimates.
-
 
 ce <- conditional_effects(fit, categorical = TRUE)
 p <- conditional_effects(fit, effects = "placementOption", categorical = TRUE)
