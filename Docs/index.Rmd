@@ -120,7 +120,6 @@ We convert the "effectivenessRating" and "easinessRating" variables to an ordere
 
 ```{r}
 modeldata$effectivenessRating <- factor(modeldata$effectivenessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
-modeldata$easinessRating <- factor(modeldata$easinessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
 ```
 # Model Design
 
