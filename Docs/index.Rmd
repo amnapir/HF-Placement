@@ -47,7 +47,8 @@ This document serves as a comprehensive guide to replicate the analysis conducte
 ## Data Loading
 To begin, load the dataset available in the Data/ directory of our GitHub [repository](https://github.com/amnapir/HF-Placement). The dataset is read into R using the following code:
 
-```data <- read_sav("Untitled26.sav")
+```{r}
+data <- read_sav("Untitled26.sav")
 ```
 In our dataset:
 Ranking Variable: Presented by the M201_ prefix, this variable assesses preferences across ten options.
