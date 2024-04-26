@@ -506,3 +506,8 @@ p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
   ylab("") +
   scale_x_continuous(breaks=seq(0,1))
 ```
+## Computational environment
+
+```{r}
+print(sessionInfo(), locale=FALSE)
+```
