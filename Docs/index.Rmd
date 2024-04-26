@@ -60,7 +60,7 @@ For more detailed information on these variables and their corresponding options
 # Model Design {.tabset}
 
 ## Effectiveness
-## Convert Categorical Variables to Factors
+### Convert Categorical Variables to Factors
 We convert specific columns to ordered factors to ensure correct ordering in categorical analysis.
 ```{r}
 data$D104 <- factor(data$D104, levels = c("1", "2", "3"), ordered = TRUE)
@@ -68,7 +68,7 @@ data$D102 <- factor(data$D102, levels = c("1", "2", "3", "4"), ordered = TRUE)
 ```
 
 
-## Data Cleaning - Handle Missing Values
+### Data Cleaning - Handle Missing Values
 We handle missing values by recoding -9 to NA for the variables starting with "M201_, "M209_", and "M210_".
 
 ```{r}
@@ -285,7 +285,7 @@ p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
 ## Easiness
 
 
-## Convert Categorical Variables to Factors
+### Convert Categorical Variables to Factors
 We convert specific columns to ordered factors to ensure correct ordering in categorical analysis.
 ```{r}
 data$D104 <- factor(data$D104, levels = c("1", "2", "3"), ordered = TRUE)
@@ -293,7 +293,7 @@ data$D102 <- factor(data$D102, levels = c("1", "2", "3", "4"), ordered = TRUE)
 ```
 
 
-## Data Cleaning - Handle Missing Values
+### Data Cleaning - Handle Missing Values
 We handle missing values by recoding -9 to NA for the variables starting with "M201_, "M209_", and "M210_".
 
 ```{r}
