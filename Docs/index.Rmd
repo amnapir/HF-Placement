@@ -8,9 +8,6 @@ output:
     toc: true
     toc_float: true
     toc_depth: 1
-bibliography: refs.bib
-link-citations: true
-csl: elsevier-harvard.csl
 linkcolor: blue
 header-includes:
   - \usepackage{amsmath}
