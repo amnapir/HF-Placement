@@ -122,14 +122,14 @@ We convert the "effectivenessRating" and "easinessRating" variables to an ordere
 modeldata$effectivenessRating <- factor(modeldata$effectivenessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
 ```
 # Model Design {.tabset}
-
-## Define Bayesian Formula
+## Effectiveness
+### Define Formula
 We define the Bayesian formula to predict "Effectiveness" based on various predictors.
 
 ```{r}
 model_formula <- bf(effectivenessRating ~ placementOption + Experience + Expertise + AreaOfWork + Dev_Struc + (1|ID))
 ```
-## Prior Specification
+### Prior Specification
 We specify the prior distributions for the Bayesian model parameters.
 
 ```{r}
@@ -139,7 +139,7 @@ We specify the prior distributions for the Bayesian model parameters.
   prior(cauchy(0, 2), "sd")
 )
 ```
-## Prior Predictive Checks
+### Prior Predictive Checks
 We check the and plot the priors from the sample only without empirical data. Sample only from the priors.
 Evidently the medians are quite evenly set along the $x$-axis, and the uncertainty is fairly uniformly distributed among the categories $1,\ldots,6$ (the bars).
 
@@ -156,7 +156,57 @@ Evidently the medians are quite evenly set along the $x$-axis, and the uncertain
 )
 pp_check(fit, type = "bars", nsamples = 250)
 ```
-## Sample with data
+### Sample with data
+We fit the Bayesian model to the data using the specified formula, priors, and settings.
+
+```{r}
+fit <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = cumulative(probit),
+  prior = prior_spec,
+  chains = 4,
+  cores = 4,
+  seed = 12345
+)
+
+```
+
+## Easiness
+### Define Formula
+We define the Bayesian formula to predict "Effectiveness" based on various predictors.
+
+```{r}
+model_formula <- bf(effectivenessRating ~ placementOption + Experience + Expertise + AreaOfWork + Dev_Struc + (1|ID))
+```
+### Prior Specification
+We specify the prior distributions for the Bayesian model parameters.
+
+```{r}
+  prior_spec <- c(
+  prior(normal(0, 5), "b"),
+  prior(normal(0, 10), "Intercept"),
+  prior(cauchy(0, 2), "sd")
+)
+```
+### Prior Predictive Checks
+We check the and plot the priors from the sample only without empirical data. Sample only from the priors.
+Evidently the medians are quite evenly set along the $x$-axis, and the uncertainty is fairly uniformly distributed among the categories $1,\ldots,6$ (the bars).
+
+```{r}
+  fit <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = cumulative(probit), 
+  prior = prior_spec,
+  chains = 4,
+  sample_prior = "only",
+  cores = 4,
+ seed = 12345
+)
+pp_check(fit, type = "bars", nsamples = 250)
+```
+### Sample with data
 We fit the Bayesian model to the data using the specified formula, priors, and settings.
 
 ```{r}
