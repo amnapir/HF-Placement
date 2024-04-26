@@ -73,7 +73,7 @@ We handle missing values by recoding -9 to NA for the variables starting with "M
   modeldata <- data %>%
   mutate(across(starts_with("M201_"), ~if_else(. == -9, NA_real_, .))) %>%
   mutate(across(starts_with("M209_"), ~if_else(. == -9, NA_real_, .))) %>%
-  mutate(across(starts_with("M210_"), ~if_else(. == -9, NA_real_, .))) %>%
+  mutate(across(starts_with("M210_"), ~if_else(. == -9, NA_real_, .)))
 
 ```
 ## Create New Variables Based on Existing Ones
