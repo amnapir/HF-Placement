@@ -117,19 +117,22 @@ modeldata <- modeldata %>%
 
 ## Convert Effectiveness and Easiness varaibles to Factor
 We convert the "effectivenessRating" and "easinessRating" variables to an ordered factor for correct ordering in the Bayesian analysis.
-```
+
+```{r}
 modeldata$effectivenessRating <- factor(modeldata$effectivenessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
 modeldata$easinessRating <- factor(modeldata$easinessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
 ```
 ## Define Bayesian Formula
 We define the Bayesian formula to predict "Effectiveness" based on various predictors.
-```
+
+```{r}
 model_formula <- bf(effectivenessRating ~ placementOption + Experience + Expertise + AreaOfWork + Dev_Struc + (1|ID))
 ```
 ## Prior Specification
 We specify the prior distributions for the Bayesian model parameters.
 
-```prior_spec <- c(
+```{r}
+  prior_spec <- c(
   prior(normal(0, 5), "b"),
   prior(normal(0, 10), "Intercept"),
   prior(cauchy(0, 2), "sd")
@@ -138,8 +141,9 @@ We specify the prior distributions for the Bayesian model parameters.
 ## Prior Predictive Checks
 We check the and plot the priors from the sample only without empirical data. Sample only from the priors.
 Evidently the medians are quite evenly set along the $x$-axis, and the uncertainty is fairly uniformly distributed among the categories $1,\ldots,6$ (the bars).
-```
-fit <- brm(
+
+```{r}
+  fit <- brm(
   formula = model_formula,
   data = modeldata,
   family = cumulative(probit), 
@@ -154,7 +158,7 @@ pp_check(fit, type = "bars", nsamples = 250)
 ## Sample with data
 We fit the Bayesian model to the data using the specified formula, priors, and settings.
 
-```
+```{r}
 fit <- brm(
   formula = model_formula,
   data = modeldata,
@@ -171,7 +175,7 @@ fit <- brm(
 ## Summary and Diagnostics
 We print the summary of the fitted model and perform diagnostic checks to ensure the model has converged and is reliable.
 Our caterpillar plots look good for all estimated parameters (i.e., they look like fat caterpillars when the chains have mixed well).
-```
+```{r}
 mcmc_trace(fit, regex_pars = "^b_") + legend_none()
 
 Diagnostics such as divergences, tree depth, energy, $\widehat{R}$, and $\mathrm{ESS}$ all look good.
@@ -213,7 +217,7 @@ plots <- lapply(coefficients, function(coef_name) {
 
 ## Ploting the posterior probability
 Next, let's plot the posterior probability densities for our population-level estimates on the $\logit$ scale.
-```
+```{r}
 parameter_names <- colnames(posterior_samples)
 parameters <- grep("^b_", parameter_names, value = TRUE)
 parameters <- parameters[!grepl("Intercept", parameters)]
@@ -238,7 +242,7 @@ print(p)
 ## Conditional effects
 Below we plot conditional effects for some of our estimates.
 
-```
+```{r}
 ce <- conditional_effects(fit, categorical = TRUE)
 p <- conditional_effects(fit, effects = "placementOption", categorical = TRUE)
 p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
