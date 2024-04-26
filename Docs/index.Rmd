@@ -79,7 +79,7 @@ We handle missing values by recoding -9 to NA for the variables starting with "M
 ## Create New Variables Based on Existing Ones
 We create new variables based on existing ones to simplify and categorize the data for analysis.
 
-``````{r}
+```{r}
 modeldata <- modeldata %>%
   mutate(
     D104 = D104,
