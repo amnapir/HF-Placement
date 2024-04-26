@@ -209,7 +209,7 @@ pp_check(fit, type = "bars", nsamples = 250)
 
 ## Extract and Plot Posterior Distributions
 We extract posterior samples and plot the posterior distributions for the model coefficients.
-```
+```{r}
 posterior_samples <- posterior_samples(fit)
 coefficients <- grep("b_", colnames(posterior_samples), value = TRUE)
 plots <- lapply(coefficients, function(coef_name) {
