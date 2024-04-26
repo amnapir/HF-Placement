@@ -170,6 +170,7 @@ fit <- brm(
   cores = 4,
   seed = 12345
 )
+plot(fit)
 ```
 
 
