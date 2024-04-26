@@ -14,8 +14,8 @@ Note: Our analysis employs Stan, brms, etc, requiring installation and configura
 [Plots/](https://github.com/amnapir/HF-Placement/tree/main/Plots) includes plots featured in the manuscript, along with additional ones that were omitted to conserve space.
 
 
-### Access
-For direct access to the replication package and related resources, visit our repository [online](https://github.com/amnapir/HF-Placement/).
+<!-- ### Access
+For direct access to the replication package and related resources, visit our repository [online](https://github.com/amnapir/HF-Placement/).-->
 
 ### Contact
 For any inquiries or further clarification, please reach out to [Amna Pir Muhammad ](mailto:amnap@chalmers.se).
