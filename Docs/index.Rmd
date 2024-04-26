@@ -269,9 +269,9 @@ plots <- lapply(coefficients, function(coef_name) {
     labs(title = paste("Posterior Distribution for", gsub("b_", "", coef_name)),
          x = "Effect Size", y = "Density")
 })
-for (p in plots) {
-  print(p)
-}
+#for (p in plots) {
+ # print(p)
+#}
 ```
 
 
