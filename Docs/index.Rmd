@@ -122,6 +122,8 @@ We convert the "effectivenessRating" and "easinessRating" variables to an ordere
 modeldata$effectivenessRating <- factor(modeldata$effectivenessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
 modeldata$easinessRating <- factor(modeldata$easinessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
 ```
+# Model Design
+
 ## Define Bayesian Formula
 We define the Bayesian formula to predict "Effectiveness" based on various predictors.
 
@@ -172,7 +174,7 @@ fit <- brm(
 
 
 
-## Summary and Diagnostics
+# Summary and Diagnostics
 We print the summary of the fitted model and perform diagnostic checks to ensure the model has converged and is reliable.
 Our caterpillar plots look good for all estimated parameters (i.e., they look like fat caterpillars when the chains have mixed well).
 ```{r}
@@ -199,6 +201,9 @@ We perform posterior predictive checks to assess how well the model fits the dat
 
 ```pp_check(fit, type = "bars", nsamples = 250)
 ```
+
+
+#Ploting
 
 ## Extract and Plot Posterior Distributions
 We extract posterior samples and plot the posterior distributions for the model coefficients.
