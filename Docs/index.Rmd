@@ -119,7 +119,7 @@ modeldata <- modeldata %>%
 ```
 
 ### Convert Effectiveness varaible to Factor
-We convert the "effectivenessRating" variable to an ordered factor for correct ordering in the Bayesian analysis.
+We convert the "effectivenessRating" variable to an ordered factor for correct ordering in the analysis.
 
 ```{r}
 modeldata$effectivenessRating <- factor(modeldata$effectivenessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
@@ -127,13 +127,13 @@ modeldata$effectivenessRating <- factor(modeldata$effectivenessRating, levels = 
 
 
 ### Define Formula
-We define the Bayesian formula to predict "Effectiveness" based on various predictors.
+We define the formula to predict "Effectiveness" based on various predictors.
 
 ```{r}
 model_formula <- bf(effectivenessRating ~ placementOption + Experience + Expertise + AreaOfWork + Dev_Struc + (1|ID))
 ```
 ### Prior Specification
-We specify the prior distributions for the Bayesian model parameters.
+We specify the prior distributions for the model parameters.
 
 ```{r}
   prior_spec <- c(
@@ -160,7 +160,7 @@ Evidently the medians are quite evenly set along the $x$-axis, and the uncertain
 pp_check(fit, type = "bars", nsamples = 250)
 ```
 ### Sample with data
-We fit the Bayesian model to the data using the specified formula, priors, and settings.
+We fit the model to the data using the specified formula, priors, and settings.
 
 ```{r}
 fit <- brm(
@@ -344,7 +344,7 @@ modeldata <- modeldata %>%
 ```
 
 ### Convert Easiness varaible to Factor
-We convert the "easinessRating" variable to an ordered factor for correct ordering in the Bayesian analysis.
+We convert the "easinessRating" variable to an ordered factor for correct ordering in the analysis.
 
 ```{r}
 modeldata$easinessRating <- factor(modeldata$easinessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
@@ -352,13 +352,13 @@ modeldata$easinessRating <- factor(modeldata$easinessRating, levels = c("1", "2"
 
 
 ### Define Formula
-We define the Bayesian formula to predict "Easiness" based on various predictors.
+We define the formula to predict "Easiness" based on various predictors.
 
 ```{r}
 model_formula <- bf(easinessRating ~ placementOption + Experience + Expertise + AreaOfWork + Dev_Struc + (1|ID))
 ```
 ### Prior Specification
-We specify the prior distributions for the Bayesian model parameters.
+We specify the prior distributions for the model parameters.
 
 ```{r}
   prior_spec <- c(
@@ -385,7 +385,7 @@ Evidently the medians are quite evenly set along the $x$-axis, and the uncertain
 pp_check(fit, type = "bars", nsamples = 250)
 ```
 ### Sample with data
-We fit the Bayesian model to the data using the specified formula, priors, and settings.
+We fit the model to the data using the specified formula, priors, and settings.
 
 ```{r}
 fit <- brm(
@@ -506,6 +506,234 @@ p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
   ylab("") +
   scale_x_continuous(breaks=seq(0,1))
 ```
+
+
+
+## Ranking
+
+
+### Convert Categorical Variables to Factors
+We convert specific columns to ordered factors to ensure correct ordering in categorical analysis.
+```{r}
+data$D104 <- factor(data$D104, levels = c("1", "2", "3"), ordered = TRUE)
+data$D102 <- factor(data$D102, levels = c("1", "2", "3", "4"), ordered = TRUE)
+```
+
+
+### Data Cleaning - Handle Missing Values
+We handle missing values by recoding -9 to NA for the variables starting with "M201_, "M209_", and "M210_".
+
+```{r}
+  modeldata <- data %>%
+  mutate(across(starts_with("M201_"), ~if_else(. == -9, NA_real_, .))) %>%
+  mutate(across(starts_with("M209_"), ~if_else(. == -9, NA_real_, .))) %>%
+  mutate(across(starts_with("M210_"), ~if_else(. == -9, NA_real_, .)))
+
+```
+### Create New Variables Based on Existing Ones
+We create new variables based on existing ones to simplify and categorize the data for analysis.
+
+```{r}
+modeldata <- modeldata %>%
+  mutate(
+    D104 = D104,
+    Expertise = case_when(
+      D102 == 1 ~ "Human Factors",
+      D102 == 2 ~ "Engineering",
+      D102 == 3 ~ "Both",
+      TRUE ~ "Other"
+    ),
+    Dev_Struc = case_when(
+      I004_01 >= 1 & I004_01 <= 35 ~ "Waterfall",
+      I004_01 >= 36 & I004_01 <= 70 ~ "Hybrid",
+      I004_01 >= 71 & I004_01 <= 100 ~ "Agile",
+      TRUE ~ "NA"
+    ),
+    Experience = case_when(
+      D104 == 1 ~ "LevelLow",
+      D104 == 2 ~ "LevelMedium",
+      D104 == 3 ~ "LevelHigh",
+      TRUE ~ "Other"
+    ),
+    AreaOfWork = case_when(
+      D101_01 == 2 ~ "Supplier",
+      D101_02 == 2 ~ "OEM",
+      D101_03 == 2 ~ "Consultancy",
+      D101_04 == 2 ~ "Research Institute",
+      D101_05 == 2 ~ "University",
+      D101_06 == 2 ~ "Government",
+      D101_07 == 2 ~ "Non-Automotive",
+      TRUE ~ "Other"
+    )
+  ) %>%
+ pivot_longer(cols = starts_with("M201_"), names_to = "placementOption", values_to = "ranking")
+
+```
+
+### Convert Easiness varaible to Factor
+We convert the "ranking" variable to an ordered factor for correct ordering in the analysis.
+
+```{r}
+modeldata$easinessRating <- factor(modeldata$easinessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
+```
+
+
+### Define Formula
+We define the formula to predict "Ranking" based on various predictors.
+
+```{r}
+model_formula <- bf(ranking ~ placementOption + Experience + Expertise + AreaOfWork + Dev_Struc + (1|ID))
+```
+### Prior Specification
+We specify the prior distributions for the model parameters.
+
+```{r}
+  prior_spec <- c(
+  prior(normal(0, 5), "b"),
+  prior(normal(0, 10), "Intercept"),
+  prior(cauchy(0, 2), "sd")
+)
+```
+### Prior Predictive Checks
+We check the and plot the priors from the sample only without empirical data. Sample only from the priors.
+Evidently the medians are quite evenly set along the $x$-axis, and the uncertainty is fairly uniformly distributed among the categories $1,\ldots,6$ (the bars).
+
+```{r}
+  fit <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = cumulative(probit), 
+  prior = prior_spec,
+  chains = 4,
+  sample_prior = "only",
+  cores = 4,
+ seed = 12345
+)
+pp_check(fit, type = "bars", nsamples = 250)
+```
+### Sample with data
+We fit the model to the data using the specified formula, priors, and settings.
+
+```{r}
+fit <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = cumulative(probit),
+  prior = prior_spec,
+  chains = 4,
+  cores = 4,
+  seed = 12345
+)
+```
+
+
+### Summary and Diagnostics
+We print the summary of the fitted model and perform diagnostic checks to ensure the model has converged and is reliable.
+Our caterpillar plots look good for all estimated parameters (i.e., they look like fat caterpillars when the chains have mixed well).
+```{r}
+mcmc_trace(fit, regex_pars = "^b_") + legend_none()
+
+#Diagnostics such as divergences, tree depth, energy, $\widehat{R}$, and $\mathrm{ESS}$ all look good.
+
+rstan::check_hmc_diagnostics(eval(fit)$fit)
+
+if(max(rhat(eval(fit)), na.rm=T) >= 1.01) {
+  print("Warning: Rhat >=1.01")
+} else {
+  print("All Rhat <1.01")
+}
+
+if(min(neff_ratio(eval(fit)), na.rm=T) <= 0.2) {
+  print("Warning: ESS <=0.2")
+} else {
+  print("All ESS >0.2")
+}
+```
+### Posterior Predictive Checks
+We perform posterior predictive checks to assess how well the model fits the data.
+
+```{r}
+pp_check(fit, type = "bars", nsamples = 250)
+```
+
+
+### Ploting
+```{r}
+plot(fit)
+```
+## Extract and Plot Posterior Distributions
+We extract posterior samples and plot the posterior distributions for the model coefficients.
+```{r}
+posterior_samples <- posterior_samples(fit)
+coefficients <- grep("b_", colnames(posterior_samples), value = TRUE)
+plots <- lapply(coefficients, function(coef_name) {
+  ggplot(posterior_samples, aes_string(x = coef_name)) +
+    geom_density(fill = "blue", alpha = 0.5) +
+    labs(title = paste("Posterior Distribution for", gsub("b_", "", coef_name)),
+         x = "Effect Size", y = "Density")
+})
+#for (p in plots) {
+ # print(p)
+#}
+```
+
+
+
+### Ploting the posterior probability
+Next, let's plot the posterior probability densities for our population-level estimates on the $\logit$ scale.
+```{r}
+parameter_names <- colnames(posterior_samples)
+parameters <- grep("^b_", parameter_names, value = TRUE)
+parameters <- parameters[!grepl("Intercept", parameters)]
+print(parameters)
+parameters <- rev(parameters)
+p <- mcmc_areas(fit, pars = parameters, prob_outer = 0.95, prob = 0.5) 
+#+  vline_0(size = 0.3)
+y_labels <- c("Feature Definition", "Feature Realization", "System Design",
+              "Dedicated human factors team", "User-oriented teams", "Non-functional requirements team",
+              "System/feature evaluation team", "Safety team", "Person/team responsible for the overall system",
+              "ExperienceLevelLow", "ExperienceLevelMedium", "ExpertiseEngineering",
+              "ExpertiseHumanFactors", "ExpertiseOther", "AreaOfWorkNonMAutomotive",
+              "AreaOfWorkOEM", "AreaOfWorkResearchInstitute", "AreaOfWorkSupplier")
+y_labels <- rev(y_labels)
+p <- p + scale_y_discrete(labels = y_labels) 
+print(p)
+```
+
+
+
+### Conditional effects
+Below we plot conditional effects for some of our estimates.
+
+```{r}
+ce <- conditional_effects(fit, categorical = TRUE)
+p <- conditional_effects(fit, effects = "placementOption", categorical = TRUE)
+p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  xlab("placementOption") +
+  ylab("") +
+  scale_x_continuous(breaks=seq(0,1))
+
+ce <- conditional_effects(fit, categorical = TRUE)
+p <- conditional_effects(fit, effects = "Experience", categorical = TRUE)
+p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  xlab("Experience") +
+  ylab("") +
+  scale_x_continuous(breaks=seq(0,1))
+
+ce <- conditional_effects(fit, categorical = TRUE)
+p <- conditional_effects(fit, effects = "Expertise", categorical = TRUE)
+p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  xlab("Criticality") +
+  ylab("") +
+  scale_x_continuous(breaks=seq(0,1))
+```
+
 ## Computational environment
 
 ```{r}
