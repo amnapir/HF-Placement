@@ -573,11 +573,11 @@ modeldata <- modeldata %>%
 
 ```
 
-### Convert Easiness varaible to Factor
+### Convert Ranking varaible to Factor
 We convert the "ranking" variable to an ordered factor for correct ordering in the analysis.
 
 ```{r}
-modeldata$easinessRating <- factor(modeldata$easinessRating, levels = c("1", "2", "3", "4", "5"), ordered = TRUE)
+modeldata$ranking <- factor(modeldata$ranking, levels = c("1", "2", "3", "4", "5", "6","7", "8","9", "10"), ordered = TRUE)
 ```
 
 
