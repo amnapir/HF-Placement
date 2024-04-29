@@ -7,11 +7,11 @@ Data for analysis is available in multiple formats within the [Data](https://git
 ### Documentation
 
 The [Docs/](https://github.com/amnapir/HF-Placement/tree/main/Docs) directory contains the replication package.
-<!-- index.Rmd within this directory can be executed in RStudio to compile into index.html, which is viewable online. -->
-Note: Our analysis employs Stan, brms, etc, requiring installation and configuration. So there's a lot to install and configure so one can  use `Docker`.
+index.Rmd within this directory can be executed in RStudio to compile into index.html, which is viewable [online]().
+Note: Our analysis employs Stan, brms, etc, requiring installation and configuration. So there's a lot to install and configure.
 
 ### Plots
-[Plots/](https://github.com/amnapir/HF-Placement/tree/main/Plots) includes plots featured in the manuscript, along with additional ones that were omitted to conserve space.
+[Plots/](https://github.com/amnapir/HF-Placement/tree/main/Plots) includes plots featured in the manuscript, along with additional ones that were omitted in manuscript in order to save space.
 
 
 <!-- ### Access
