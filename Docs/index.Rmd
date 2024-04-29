@@ -11,6 +11,7 @@ output:
     includes:
 bibliography: refs.bib
 link-citations: true
+csl: elsevier-harvard.csl
 linkcolor: blue
 header-includes:
   - \usepackage{amsmath}
