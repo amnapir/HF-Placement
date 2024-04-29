@@ -818,3 +818,6 @@ Note: We've demonstrated this process for "Effectiveness" here, but using the sa
 ```{r}
 print(sessionInfo(), locale=FALSE)
 ```
+# References
+
+<div id="refs"></div>
