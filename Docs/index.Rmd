@@ -740,7 +740,7 @@ p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
 
 # Model Comparison 
 
-Given that our outcome variable follows an ordinal categorical structure, we have numerous modeling options available. Our outcome variable resembles that of an independent achievement model, akin to placing human factors expertise at different positions within an organization. Taking this characteristic into consideration, we anticipate that the following types of models may be suitable options for our analysis (adapted from Bürkner and Vuorre, 2019):
+Given that our outcome variable follows an ordinal categorical structure, we have numerous modeling options available. Our outcome variable resembles that of an independent achievement model, akin to placing human factors expertise at different positions within an organization. Taking this characteristic into consideration, we anticipate that the following types of models may be suitable options for our analysis [@burkner19ordinal]:
 
 
 * Cumulative
