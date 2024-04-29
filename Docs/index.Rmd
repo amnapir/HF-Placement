@@ -813,7 +813,7 @@ loo_compare(fit, fit1, fit2, fit3)
 The LOO analysis ranks "fit" as the top-performing model. Based on this ranking, it may be preferable to use "fit" for predictive modeling, as it demonstrates the best performance in terms of predictive accuracy according to the LOO comparison results.
 Note: We've demonstrated this process for "Effectiveness" here, but using the same script, you can perform it for other variables as well. We obtained similar results for all other variables.
 
-## Computational environment
+# Computational environment
 
 ```{r}
 print(sessionInfo(), locale=FALSE)
