@@ -398,6 +398,7 @@ fit <- brm(
   seed = 12345
 )
 ```
+The LOO analysis ranks "fit" as the top-performing model. Based on this ranking, it may be preferable to use "fit" for predictive modeling, as it demonstrates the best performance in terms of predictive accuracy according to the LOO comparison results.
 
 
 ### Summary and Diagnostics
@@ -732,7 +733,83 @@ p_crit <- plot(p)[[1]] +  # Removed plot = FALSE
   xlab("Criticality") +
   ylab("") +
   scale_x_continuous(breaks=seq(0,1))
+
 ```
+
+# Model Comparison 
+
+Given that our outcome variable follows an ordinal categorical structure, we have numerous modeling options available. Our outcome variable resembles that of an independent achievement model, akin to placing human factors expertise at different positions within an organization. Taking this characteristic into consideration, we anticipate that the following types of models may be suitable options for our analysis (adapted from Bürkner and Vuorre, 2019):
+
+
+* Cumulative
+* Adjacent-category (acat)
+* Stoping ratio (sratio)
+* Continuation ratio (cratio)
+
+We'll employ the Leave-One-Out Cross-Validation (LOO) technique to generate equivalent null models with standard priors. Subsequently, we'll utilize the same dataset across all models to evaluate them from an information-theoretic standpoint. We have demonstared it for "Effectivness" here, but using the same script you can do it for other variables. We found the same resulst for all other variables.
+
+```{r}
+# Fit the model with `cumulative`
+fit <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = cumulative, 
+  prior = prior_spec,
+  chains = 4,
+  cores = 4,
+  seed = 12345
+)
+print(summary(fit))
+
+# Fit the model with `cratio`
+fit1 <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = cratio, 
+  prior = prior_spec,
+  chains = 4,
+  cores = 4,
+  seed = 12345
+)
+print(summary(fit))
+
+
+# Fit the model with `sratio`
+fit2 <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = sratio, 
+  prior = prior_spec,
+  chains = 4,
+  cores = 4,
+  seed = 12345
+)
+print(summary(fit))
+ 
+# Fit the model wuth `acat`
+fit3 <- brm(
+  formula = model_formula,
+  data = modeldata,
+  family = acat, 
+  prior = prior_spec,
+  chains = 4,
+  cores = 4,
+  seed = 12345
+)
+print(summary(fit))
+
+fit <- add_criterion(fit, criterion = "loo")
+fit1 <- add_criterion(fit1, criterion = "loo")
+fit2 <- add_criterion(fit2, criterion = "loo")
+fit3 <- add_criterion(fit3, criterion = "loo")
+
+loo_compare(fit, fit1, fit2, fit3)
+```
+Our resulst shows that
+
+
+
+
 
 ## Computational environment
 
