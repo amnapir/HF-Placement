@@ -402,8 +402,6 @@ fit <- brm(
   seed = 12345
 )
 ```
-The LOO analysis ranks "fit" as the top-performing model. Based on this ranking, it may be preferable to use "fit" for predictive modeling, as it demonstrates the best performance in terms of predictive accuracy according to the LOO comparison results.
-
 
 ### Summary and Diagnostics
 We print the summary of the fitted model and perform diagnostic checks to ensure the model has converged and is reliable.
@@ -750,7 +748,6 @@ Given that our outcome variable follows an ordinal categorical structure, we hav
 * Stoping ratio (sratio)
 * Continuation ratio (cratio)
 
-We'll employ the Leave-One-Out Cross-Validation (LOO) technique to generate equivalent null models with standard priors. Subsequently, we'll utilize the same dataset across all models to evaluate them from an information-theoretic standpoint. We have demonstared it for "Effectivness" here, but using the same script you can do it for other variables. We found the same resulst for all other variables.
 
 ```{r}
 # Fit the model with `cumulative`
@@ -801,7 +798,11 @@ fit3 <- brm(
   seed = 12345
 )
 print(summary(fit))
+```
+Next, we'll use Leave-One-Out Cross-Validation (LOO) to compare the models:
 
+
+```{r}
 fit <- add_criterion(fit, criterion = "loo")
 fit1 <- add_criterion(fit1, criterion = "loo")
 fit2 <- add_criterion(fit2, criterion = "loo")
@@ -809,11 +810,8 @@ fit3 <- add_criterion(fit3, criterion = "loo")
 
 loo_compare(fit, fit1, fit2, fit3)
 ```
-Our resulst shows that
-
-
-
-
+The LOO analysis ranks "fit" as the top-performing model. Based on this ranking, it may be preferable to use "fit" for predictive modeling, as it demonstrates the best performance in terms of predictive accuracy according to the LOO comparison results.
+Note: We've demonstrated this process for "Effectiveness" here, but using the same script, you can perform it for other variables as well. We obtained similar results for all other variables.
 
 ## Computational environment
 
