@@ -8,6 +8,9 @@ output:
     toc: true
     toc_float: true
     toc_depth: 1
+    includes:
+bibliography: refs.bib
+link-citations: true
 linkcolor: blue
 header-includes:
   - \usepackage{amsmath}
